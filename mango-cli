@@ -1,0 +1,144 @@
+#!/usr/bin/env node
+
+var fs = require('fs')
+var Web3 = require('web3')
+var web3 = new Web3()
+var repoABI = require('./MangoRepoABI.json')
+var repoCode = fs.readFileSync('./MangoRepo.bin').toString()
+
+var yargs = require('yargs')
+  .usage('Usage: $0 [command]')
+  .option('R', {
+    alias: 'repo',
+    describe: 'Repository address',
+    type: 'string'
+  })
+  .option('admin', {
+    describe: 'Treat as administrator',
+    type: 'boolean'
+  })
+  .option('account', {
+    describe: 'Sender account (a current administrator)',
+    type: 'string'
+  })
+  .global([ 'repo', 'admin' ])
+  .command('create', 'Create repository')
+  .command('obsolete', 'Mark repository obsolete')
+  .command('authorize <address>', 'Authorize account with write access')
+  .command('deauthorize <address>', 'Deauthorize account')
+  .strict()
+  .version()
+  .showHelpOnFail(false, 'Specify --help for available options')
+  .help()
+  .demand(1, 'Must provide a command')
+
+var argv = yargs.argv
+var command = argv._[0]
+
+function abort (msg) {
+  console.log(msg || 'Error occured')
+  process.exit(1)
+}
+
+function ensureRepo () {
+  if (!argv.repo) {
+    abort('A repository address is mandatory for this operation')
+  }
+
+  if (!web3.isAddress(argv.repo)) {
+    abort('Invalid repository address')
+  }
+}
+
+function ensureAccount (account) {
+  if (!account) {
+    abort('An account is mandatory for this operation')
+  }
+
+  if (!web3.isAddress(account)) {
+    abort('Invalid account')
+  }
+}
+
+console.log('Initialising...')
+
+web3.setProvider(new web3.providers.HttpProvider(process.env['ETHEREUM_RPC_URL'] || 'http://localhost:8545'))
+if (!web3.eth.defaultAccount) {
+  web3.eth.defaultAccount = web3.eth.coinbase
+}
+
+var from
+if (argv.account) {
+  ensureAccount(argv.account)
+  from = argv.account
+} else {
+  from = web3.eth.defaultAccount
+}
+
+switch (command) {
+  case 'create':
+    console.log('Creating new repository with administrator ' + from)
+
+    web3.eth.contract(repoABI).new({ data: repoCode, from: from }, function (err, contract) {
+      if (err) {
+        console.log('Error: ' + err)
+        return
+      }
+
+      // Second callback will have the address
+      if (contract.address) {
+        console.log('Repository created: ' + contract.address)
+      } else if (contract.transactionHash) {
+        console.log('Sent transaction: ' + contract.transactionHash)
+      }
+    })
+
+    break
+
+  case 'obsolete':
+    console.log('Marking ' + argv.repo + ' as obsolete')
+    ensureRepo()
+
+    web3.eth.contract(repoABI).at(argv.repo).setObsolete({ from: from }, function (err, contract) {
+      if (err) {
+        console.log('Error: ' + err)
+        return
+      }
+
+      console.log('Sent transaction: ' + contract)
+    })
+
+    break
+
+  case 'authorize':
+    console.log('Authorizing ' + argv.address + ' for ' + argv.repo + ' as ' + (argv.admin ? 'admin' : 'committer'))
+    ensureRepo()
+    ensureAccount(argv.address)
+
+    web3.eth.contract(repoABI).at(argv.repo).authorize(argv.address, argv.admin, { from: from }, function (err, contract) {
+      if (err) {
+        console.log('Error: ' + err)
+        return
+      }
+
+      console.log('Sent transaction: ' + contract)
+    })
+
+    break
+
+  case 'deauthorize':
+    console.log('Deauthorizing ' + argv.address + ' for ' + argv.repo + ' as ' + (argv.admin ? 'admin' : 'committer'))
+    ensureRepo()
+    ensureAccount(argv.address)
+
+    web3.eth.contract(repoABI).at(argv.repo).deauthorize(argv.address, argv.admin, { from: from }, function (err, contract) {
+      if (err) {
+        console.log('Error: ' + err)
+        return
+      }
+
+      console.log('Sent transaction: ' + contract)
+    })
+
+    break
+}

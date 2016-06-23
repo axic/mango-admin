@@ -1,0 +1,30 @@
+{
+  "name": "mango-cli",
+  "version": "0.0.0",
+  "description": "CLI for Mango",
+  "bin": "mango-cli",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/axic/mango-cli.git"
+  },
+  "keywords": [
+    "mango",
+    "git"
+  ],
+  "author": "Alex Beregszaszi <alex@rtfs.hu>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/axic/mango-cli/issues"
+  },
+  "homepage": "https://github.com/axic/mango-cli#readme",
+  "dependencies": {
+    "web3": "^0.16.0",
+    "yargs": "^4.7.1"
+  },
+  "yargs": {
+    "parse-numbers": false
+  }
+}
