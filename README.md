@@ -29,6 +29,28 @@ To mango://0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59
 $
 ```
 
+### Display status of repository
+
+An empty repository:
+
+```
+$ mango --repo 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 status
+Initialising...
+Checking status of repository 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59
+No references
+No snapshosts
+```
+
+A repository with a single push:
+
+```
+$ mango --repo 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 status
+Initialising...
+Checking status of repository 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59
+Reference: refs/heads/master -> bc801074362358d5b91bc76a25785fd505755303
+Snaphost #0: QmcRU1DukhtXkHFqjNCQeS3nbQYRgB4zgJpkGJiSghCuou
+```
+
 ### Adding users
 
 ```

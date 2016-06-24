@@ -22,6 +22,7 @@ var yargs = require('yargs')
     type: 'string'
   })
   .global([ 'repo', 'admin' ])
+  .command('status', 'Check status of repository')
   .command('create', 'Create repository')
   .command('obsolete', 'Mark repository obsolete')
   .command('authorize <address>', 'Authorize account with write access')
@@ -92,6 +93,48 @@ switch (command) {
         console.log('Sent transaction: ' + contract.transactionHash)
       }
     })
+
+    break
+
+  case 'status':
+    console.log('Checking status of repository ' + argv.repo)
+    ensureRepo()
+
+    var contract = web3.eth.contract(repoABI).at(argv.repo)
+
+    var version = contract.repoInterfaceVersion().toNumber()
+    if (version !== 1) {
+      abort('Not a Mango repository?')
+    }
+
+    if (web3.eth.contract(repoABI).at(argv.repo).isObsolete()) {
+      console.log('Repository is marked as OBSOLETE')
+    }
+
+    var i
+    var name
+    var ref
+    var refCount = contract.refCount().toNumber()
+
+    if (!refCount) {
+      console.log('No references')
+    }
+
+    for (i = 0; i < refCount; i++) {
+      name = contract.refName(i)
+      ref = contract.getRef(name)
+      console.log('Reference: ' + name + ' -> ' + ref)
+    }
+
+    var snapshotCount = contract.snapshotCount().toNumber()
+
+    if (!snapshotCount) {
+      console.log('No snapshosts')
+    }
+
+    for (i = 0; i < snapshotCount; i++) {
+      console.log('Snaphost #' + i + ': ' + contract.getSnapshot(i))
+    }
 
     break
 
