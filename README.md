@@ -7,7 +7,7 @@ A commandline tool for Mango.  Supports repository creation and management.  It 
 ### Creating a repository
 
 ```
-$ mango create
+$ mango-admin create
 Initialising...
 Creating new repository with administrator 0xaf8843081fd0dc1c4b12053d0ec123a10b91de0e
 Sent transaction: 0xe95567ee6fdee21e02061ef6e33f2659943509ca5af5d953dc987ad118ed57fc
@@ -34,7 +34,7 @@ $
 An empty repository:
 
 ```
-$ mango --repo 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 status
+$ mango-admin --repo 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 status
 Initialising...
 Checking status of repository 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59
 No references
@@ -44,7 +44,7 @@ No snapshosts
 A repository with a single push:
 
 ```
-$ mango --repo 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 status
+$ mango-admin --repo 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 status
 Initialising...
 Checking status of repository 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59
 Reference: refs/heads/master -> bc801074362358d5b91bc76a25785fd505755303
@@ -54,7 +54,7 @@ Snaphost #0: QmcRU1DukhtXkHFqjNCQeS3nbQYRgB4zgJpkGJiSghCuou
 ### Adding users
 
 ```
-$ mango --repo 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 authorize 0x01d3400d88796f893e8183036b047c9e2474080b
+$ mango-admin --repo 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 authorize 0x01d3400d88796f893e8183036b047c9e2474080b
 Initialising...
 Authorizing 0x01d3400d88796f893e8183036b047c9e2474080b for 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 as committer
 Sent transaction: 0xb80a66ec59a923245d91ce8f112519fb0270cbd5cd13bfa1f379aa0f06a601f7
@@ -63,7 +63,7 @@ Sent transaction: 0xb80a66ec59a923245d91ce8f112519fb0270cbd5cd13bfa1f379aa0f06a6
 ### Deleting users
 
 ```
-$ mango --repo 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 deauthorize 0x01d3400d88796f893e8183036b047c9e2474080b
+$ mango-admin --repo 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 deauthorize 0x01d3400d88796f893e8183036b047c9e2474080b
 Initialising...
 Deauthorizing 0x01d3400d88796f893e8183036b047c9e2474080b for 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 as committer
 Sent transaction: 0x176b64b6c91da229c7b02494825caab2e7757beaa7626a5573f7ff25a3bf6a35
@@ -72,7 +72,7 @@ Sent transaction: 0x176b64b6c91da229c7b02494825caab2e7757beaa7626a5573f7ff25a3bf
 ### Add administrator
 
 ```
-$ mango --repo 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 authorize --admin 0x01d3400d88796f893e8183036b047c9e2474080b
+$ mango-admin --repo 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 authorize --admin 0x01d3400d88796f893e8183036b047c9e2474080b
 Initialising...
 Authorizing 0x01d3400d88796f893e8183036b047c9e2474080b for 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 as admin
 Sent transaction: 0x604f2c6a6958e331ff9696a7f36528c6117eda6ab37decb140ebf5011d3c619b
@@ -81,7 +81,7 @@ Sent transaction: 0x604f2c6a6958e331ff9696a7f36528c6117eda6ab37decb140ebf5011d3c
 ### Remove administrator
 
 ```
-$ mango --repo 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 deauthorize --admin 0x01d3400d88796f893e8183036b047c9e2474080b
+$ mango-admin --repo 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 deauthorize --admin 0x01d3400d88796f893e8183036b047c9e2474080b
 Initialising...
 Deauthorizing 0x01d3400d88796f893e8183036b047c9e2474080b for 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 as admin
 Sent transaction: 0x76b0e259f48e4b8669bfe8393b25ff645409db4c678c3e0dd5e7d5b299260d7f
@@ -90,7 +90,7 @@ Sent transaction: 0x76b0e259f48e4b8669bfe8393b25ff645409db4c678c3e0dd5e7d5b29926
 ### Mark a repository obsolete
 
 ```
-$ mango --repo 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 obsolete
+$ mango-admin --repo 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 obsolete
 Initialising...
 Marking 0x8add9d064bbd29f3118f11ee46abe0ad9e45aa59 as obsolete
 Sent transaction: 0x267ab9b49751b0c3d82e04c4643eed39940e67b8c476c1d908469ec282c63cb4
