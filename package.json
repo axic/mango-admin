@@ -2,7 +2,7 @@
   "name": "mango-admin",
   "version": "0.1.0",
   "description": "CLI for Mango",
-  "bin": "mango-cli",
+  "bin": "mango-admin",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
