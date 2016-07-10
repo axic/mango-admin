@@ -7,7 +7,9 @@ var repoABI = require('./contracts/MangoRepoABI.json')
 var repoCode = fs.readFileSync('./contracts/MangoRepo.bin').toString()
 
 var yargs = require('yargs')
-  .usage('Usage: $0 [command]')
+
+yargs.usage('Usage: $0 [command]')
+  .demand(1, 'Must provide a command')
   .option('R', {
     alias: 'repo',
     describe: 'Repository address',
@@ -21,7 +23,6 @@ var yargs = require('yargs')
     describe: 'Sender account (a current administrator)',
     type: 'string'
   })
-  .global([ 'repo', 'admin' ])
   .command('status', 'Check status of repository')
   .command('create', 'Create repository')
   .command('obsolete', 'Mark repository obsolete')
@@ -31,7 +32,6 @@ var yargs = require('yargs')
   .version()
   .showHelpOnFail(false, 'Specify --help for available options')
   .help()
-  .demand(1, 'Must provide a command')
 
 var argv = yargs.argv
 var command = argv._[0]
