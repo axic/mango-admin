@@ -83,7 +83,7 @@ switch (command) {
 
     web3.eth.contract(repoABI).new({ data: repoCode, from: from }, function (err, contract) {
       if (err) {
-        console.log('Error: ' + err)
+        console.log(err)
         return
       }
 
@@ -145,7 +145,7 @@ switch (command) {
 
     web3.eth.contract(repoABI).at(argv.repo).setObsolete({ from: from }, function (err, contract) {
       if (err) {
-        console.log('Error: ' + err)
+        console.log(err)
         return
       }
 
@@ -161,7 +161,7 @@ switch (command) {
 
     web3.eth.contract(repoABI).at(argv.repo).authorize(argv.address, argv.admin, { from: from }, function (err, contract) {
       if (err) {
-        console.log('Error: ' + err)
+        console.log(err)
         return
       }
 
@@ -177,7 +177,7 @@ switch (command) {
 
     web3.eth.contract(repoABI).at(argv.repo).deauthorize(argv.address, argv.admin, { from: from }, function (err, contract) {
       if (err) {
-        console.log('Error: ' + err)
+        console.log(err)
         return
       }
 
