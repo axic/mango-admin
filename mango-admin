@@ -5,7 +5,7 @@ var Web3 = require('web3')
 var web3 = new Web3()
 var repoABI = require('./contracts/MangoRepoABI.json')
 var path = require('path')
-var repoCode = fs.readFileSync(path.join(__dirname, 'contracts') + '/MangoRepo.bin').toString()
+var repoCode = '0x'+fs.readFileSync(path.join(__dirname, 'contracts') + '/MangoRepo.bin').toString()
 
 var yargs = require('yargs')
   .usage('Usage: $0 [command]')
