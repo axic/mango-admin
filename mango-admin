@@ -80,8 +80,12 @@ if (argv.account) {
 switch (command) {
   case 'create':
     console.log('Creating new repository with administrator ' + from)
-
-    web3.eth.contract(repoABI).new({ data: repoCode, from: from }, function (err, contract) {
+    var gas = web3.eth.estimateGas(
+	{ data: repoCode, from: from }
+    )
+    web3.eth.contract(repoABI).new(
+	{ data: repoCode, from: from, gas: gas },
+	function (err, contract) {
       if (err) {
         console.log('Error: ' + err)
         return
